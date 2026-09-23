@@ -20,6 +20,9 @@ A modern, high-performance Laravel package for **Bikram Sambat (BS / Nepali Date
   - `whereBsFiscalYear('column', '2080/81')`
   - `whereBsQuarter('column', 2081, 1)`
 - **Built-in Nepal Fiscal Year (*Aarthik Barsha*)**: Full support for fiscal years (Shrawan 1 to Ashadh 31/32) and quarterly divisions (Q1-Q4).
+- **Fluent Date Arithmetic & Carbon Parity**: Easily manipulate dates (`addBsDays`, `subBsMonths`, `startOfBsFiscalYear`, `endOfBsMonth`) and check status (`isToday`, `isPast`, `isFuture`).
+- **Relative Time Localization (`diffForHumans`)**: Natural Nepali and English relative timestamps (e.g., *“३ दिन अगाडि”*, *“२ महिना पछि”*, or *“3 days ago”*).
+- **Extended Formatting Tokens**: Full token mapping mimicking PHP's `date()` syntax (e.g. `l`, `D`, `F`, `M`, `t`, `S`, `Q`, `x`) with Devanagari numerals.
 - **Validation Rules**: Complete suite of Laravel validation rules: `bs_date`, `bs_after`, `bs_before`, `bs_fiscal_year`.
 - **Pure Astronomical Formula Engine**: Zero hardcoded calendar arrays or third-party packages. Calculates dates directly from planetary motion, Lahiri Ayanamsa, and solar Sankranti ingress moments.
 - **Devanagari Numerals & Nepali Month Names**: Convert and format seamlessly in Nepali (e.g. `२०८१-०१-०१`, `बैशाख`).
@@ -172,6 +175,115 @@ Bikram Sambat (BS): 2081-01-01 (Baisakh)
 Gregorian (AD):     2024-04-14
 Fiscal Year:        2080/81 (Q4)
 Devanagari:         २०८१-०१-०१ (बैशाख)
+```
+
+---
+
+### 5. Date Manipulation & Carbon Parity (`BsDate`)
+
+The `BsDate` object provides Carbon-like fluent operations designed specifically for Bikram Sambat calendar rules:
+
+#### Fluent Date Arithmetic:
+```php
+use Dev1191\BikramSambat\Support\BsDate;
+
+$date = BsDate::parse('2081-01-15');
+
+// Days
+$date->addBsDays(5);    // 2081-01-20
+$date->subBsDays(2);    // 2081-01-13
+
+// Months (with automatic month-length day clamping)
+$date->addBsMonths(2);  // 2081-03-15
+$date->subBsMonths(1);  // 2080-12-15
+
+// Years
+$date->addBsYears(1);   // 2082-01-15
+$date->subBsYears(2);   // 2079-01-15
+```
+
+#### Period Boundaries:
+```php
+$date = BsDate::parse('2081-04-15');
+
+// Month Boundaries
+$date->startOfBsMonth();      // 2081-04-01
+$date->endOfBsMonth();        // 2081-04-31 (or 32 depending on astronomical calendar)
+
+// Year Boundaries
+$date->startOfBsYear();       // 2081-01-01
+$date->endOfBsYear();         // 2081-12-30
+
+// Nepal Fiscal Year Boundaries (Shrawan 1 to Ashadh end)
+$date->startOfBsFiscalYear(); // 2081-04-01
+$date->endOfBsFiscalYear();   // 2082-03-31
+
+// Fiscal Quarter Boundaries
+$date->startOfBsQuarter();    // 2081-04-01 (Q1 start)
+$date->endOfBsQuarter();      // 2081-06-31 (Q1 end)
+```
+
+#### Relative Time Localization (`diffForHumans`):
+```php
+$date = BsDate::today()->subDays(3);
+
+// In Nepali (natural language with Devanagari digits)
+$date->diffForHumans(locale: 'np'); // "३ दिन अगाडि"
+
+// In English
+$date->diffForHumans(locale: 'en'); // "3 days ago"
+
+$future = BsDate::today()->addBsMonths(2);
+$future->diffForHumans(locale: 'np'); // "२ महिना पछि"
+$future->diffForHumans(locale: 'en'); // "in 2 months"
+
+// Just now
+BsDate::now()->diffForHumans(locale: 'np'); // "भर्खरै"
+BsDate::now()->diffForHumans(locale: 'en'); // "just now"
+```
+
+#### Extended Format Tokens:
+`$date->format($pattern, inDevanagari: false, locale: null)` supports standard PHP `date()` specifiers adapted to BS:
+
+| Token | Description | Example (BS) |
+|---|---|---|
+| `d` | 2-digit day of month with leading zeros | `01` to `32` |
+| `j` | Day of month without leading zeros | `1` to `32` |
+| `l` | Full day of the week | `Sunday` / `आइतबार` |
+| `D` | 3-letter / short day of the week | `Sun` / `आइत` |
+| `w` | Numeric day of week (0 for Sunday, 6 for Saturday) | `0` |
+| `N` | ISO-8601 numeric day of week (1 for Monday, 7 for Sunday) | `7` |
+| `S` | English ordinal suffix for the day | `st`, `nd`, `rd`, `th` |
+| `m` | 2-digit month with leading zeros | `01` to `12` |
+| `n` | Month without leading zeros | `1` to `12` |
+| `F` | Full month name | `Baisakh` / `बैशाख` |
+| `M` | Short month name | `Bai` / `बै` |
+| `t` | Number of days in the given BS month | `31` |
+| `Y` | 4-digit BS year | `2081` |
+| `y` | 2-digit BS year | `81` |
+| `L` | Whether it is a leap year (366 days) | `1` or `0` |
+| `Q` | Fiscal quarter (1 to 4) | `4` |
+| `x` | Fiscal year string | `2080/81` |
+
+```php
+$date = BsDate::create(2081, 1, 1);
+
+$date->format('l, F j, Y');                        // "Sunday, Baisakh 1, 2081"
+$date->format('l, F j, Y', inDevanagari: true);    // "आइतबार, बैशाख १, २०८१"
+$date->format('Y/m/d (x Q)');                      // "2081/01/01 (2080/81 4)"
+```
+
+#### Carbon Status Checks:
+```php
+$date->isToday();
+$date->isYesterday();
+$date->isTomorrow();
+$date->isPast();
+$date->isFuture();
+$date->isCurrentMonth();
+$date->isCurrentYear();
+$date->isSameMonth('2081-01-30');
+$date->isSameYear('2081-08-10');
 ```
 
 ---
