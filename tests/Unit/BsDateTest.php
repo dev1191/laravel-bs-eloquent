@@ -1,7 +1,7 @@
 <?php
 
-use Dev1191\BikramSambat\Support\BsDate;
 use Dev1191\BikramSambat\Exceptions\InvalidBsDateException;
+use Dev1191\BikramSambat\Support\BsDate;
 
 it('creates a BsDate instance and formats it', function () {
     $date = BsDate::create(2081, 1, 1);

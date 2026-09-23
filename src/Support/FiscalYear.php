@@ -56,7 +56,7 @@ class FiscalYear
      */
     public static function range(string $fiscalYear): array
     {
-        if (!preg_match('/^(\d{4})\/(\d{2})$/', trim($fiscalYear), $matches)) {
+        if (! preg_match('/^(\d{4})\/(\d{2})$/', trim($fiscalYear), $matches)) {
             throw new InvalidArgumentException("Invalid fiscal year format '{$fiscalYear}'. Expected 'YYYY/YY' e.g. '2080/81'.");
         }
 

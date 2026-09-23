@@ -13,15 +13,16 @@ class BsFiscalYear implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!is_string($value)) {
-            $fail("The :attribute must be a string in Nepali Fiscal Year format (e.g. 2080/81).");
+        if (! is_string($value)) {
+            $fail('The :attribute must be a string in Nepali Fiscal Year format (e.g. 2080/81).');
+
             return;
         }
 
         try {
             FiscalYear::range($value);
         } catch (Throwable $e) {
-            $fail("The :attribute is not a valid Nepali Fiscal Year (expected format: YYYY/YY, e.g., 2080/81).");
+            $fail('The :attribute is not a valid Nepali Fiscal Year (expected format: YYYY/YY, e.g., 2080/81).');
         }
     }
 }

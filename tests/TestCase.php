@@ -2,9 +2,9 @@
 
 namespace Dev1191\BikramSambat\Tests;
 
+use Dev1191\BikramSambat\BikramSambatServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Dev1191\BikramSambat\BikramSambatServiceProvider;
 
 class TestCase extends Orchestra
 {

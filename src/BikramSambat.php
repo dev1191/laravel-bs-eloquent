@@ -56,6 +56,7 @@ class BikramSambat
         }
 
         $carbon = ($yearOrDate instanceof Carbon) ? $yearOrDate : Carbon::parse($yearOrDate);
+
         return Converter::adToBs((int) $carbon->year, (int) $carbon->month, (int) $carbon->day);
     }
 

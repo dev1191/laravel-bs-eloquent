@@ -7,8 +7,11 @@ namespace Dev1191\BikramSambat\Calendar;
 class AstronomicalCalendar
 {
     private const TZ_OFFSET_HOURS = 5.75;
+
     private const AYANAMSA_AT_J2000 = 23.858083; // Standard Lahiri J2000.0 baseline
+
     private const AYANAMSA_RATE_PER_CENTURY = 1.396042; // Precession per Julian century
+
     private const SUN_MEAN_DAILY_MOTION = 0.985647;
 
     public const MONTH_NAMES = [
@@ -66,6 +69,7 @@ class AstronomicalCalendar
     public static function normalizeDegrees(float $deg): float
     {
         $deg = fmod($deg, 360.0);
+
         return $deg < 0 ? $deg + 360.0 : $deg;
     }
 

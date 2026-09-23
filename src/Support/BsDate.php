@@ -18,12 +18,17 @@ use Stringable;
 class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
 {
     protected int $year;
+
     protected int $month;
+
     protected int $day;
+
     protected string $monthName;
+
     protected Carbon $adDate;
 
     public const NEPALI_DIGITS = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+
     public const NEPALI_DAY_NAMES = [
         0 => 'आइतबार', 1 => 'सोमबार', 2 => 'मङ्गलबार', 3 => 'बुधबार',
         4 => 'बिहीबार', 5 => 'शुक्रबार', 6 => 'शनिबार',
@@ -94,6 +99,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
         // Try Carbon parsing as AD
         try {
             $carbon = Carbon::parse($date);
+
             return self::fromAd($carbon);
         } catch (\Throwable $e) {
             throw InvalidBsDateException::invalidFormat($date);
@@ -141,6 +147,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
     public function getDayName(bool $nepali = false): string
     {
         $dow = $this->adDate->dayOfWeek;
+
         return $nepali ? self::NEPALI_DAY_NAMES[$dow] : $this->adDate->format('l');
     }
 
@@ -186,6 +193,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
         for ($m = 1; $m <= 12; $m++) {
             $totalDays += Converter::daysInBsMonth($this->year, $m);
         }
+
         return $totalDays >= 366;
     }
 
@@ -220,6 +228,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
     public function addDays(int $days): self
     {
         $targetAd = $this->adDate->copy()->addDays($days);
+
         return self::fromAd($targetAd);
     }
 
@@ -231,18 +240,21 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
     public function isBefore(self|string $date): bool
     {
         $other = ($date instanceof self) ? $date : self::parse($date);
+
         return $this->adDate->lt($other->toAd());
     }
 
     public function isAfter(self|string $date): bool
     {
         $other = ($date instanceof self) ? $date : self::parse($date);
+
         return $this->adDate->gt($other->toAd());
     }
 
     public function isSameDay(self|string $date): bool
     {
         $other = ($date instanceof self) ? $date : self::parse($date);
+
         return $this->adDate->isSameDay($other->toAd());
     }
 

@@ -18,6 +18,7 @@ beforeEach(function () {
 class TestPost extends Model
 {
     protected $table = 'test_posts';
+
     protected $guarded = [];
 
     protected $casts = [

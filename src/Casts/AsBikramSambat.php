@@ -22,11 +22,9 @@ class AsBikramSambat implements CastsAttributes
     /**
      * Cast the given value from database (Gregorian date) to BsDate.
      *
-     * @param Model $model
-     * @param string $key
-     * @param mixed $value
-     * @param array<string, mixed> $attributes
-     * @return BsDate|null
+     * @param  Model  $model
+     * @param  mixed  $value
+     * @param  array<string, mixed>  $attributes
      */
     public function get($model, string $key, $value, array $attributes): ?BsDate
     {
@@ -41,11 +39,9 @@ class AsBikramSambat implements CastsAttributes
     /**
      * Prepare the given value for storage in the database (as Gregorian YYYY-MM-DD).
      *
-     * @param Model $model
-     * @param string $key
-     * @param mixed $value
-     * @param array<string, mixed> $attributes
-     * @return string|null
+     * @param  Model  $model
+     * @param  mixed  $value
+     * @param  array<string, mixed>  $attributes
      */
     public function set($model, string $key, $value, array $attributes): ?string
     {

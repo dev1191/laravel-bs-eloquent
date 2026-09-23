@@ -25,6 +25,7 @@ class TestInvoice extends Model
     use HasBikramSambatScopes;
 
     protected $table = 'test_invoices';
+
     protected $guarded = [];
 
     protected $casts = [

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 it('validates bs_date with custom rule and string rule', function () {
     // Valid date
-    $v1 = Validator::make(['date' => '2081-01-01'], ['date' => new BsDate()]);
+    $v1 = Validator::make(['date' => '2081-01-01'], ['date' => new BsDate]);
     expect($v1->passes())->toBeTrue();
 
     $v2 = Validator::make(['date' => '2081-01-01'], ['date' => 'bs_date']);
@@ -48,7 +48,7 @@ it('validates bs_before rule', function () {
 });
 
 it('validates bs_fiscal_year rule', function () {
-    $v1 = Validator::make(['fy' => '2080/81'], ['fy' => new BsFiscalYear()]);
+    $v1 = Validator::make(['fy' => '2080/81'], ['fy' => new BsFiscalYear]);
     expect($v1->passes())->toBeTrue();
 
     $v2 = Validator::make(['fy' => '2080/81'], ['fy' => 'bs_fiscal_year']);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dev1191\BikramSambat\Concerns;
 
-use Carbon\Carbon;
 use DateTimeInterface;
 use Dev1191\BikramSambat\Calendar\Converter;
 use Dev1191\BikramSambat\Support\BsDate;

@@ -35,15 +35,16 @@ class BsConvertCommand extends Command
                 }
             }
 
-            $this->info("Bikram Sambat (BS): " . $parsed->toBsString() . " (" . $parsed->getMonthName() . ")");
-            $this->info("Gregorian (AD):     " . $parsed->toAdString());
-            $this->info("Day:                " . $parsed->getDayName() . " (" . $parsed->getDayName(nepali: true) . ")");
-            $this->info("Fiscal Year:        " . $parsed->fiscalYear() . " (Q" . $parsed->fiscalQuarter() . ")");
-            $this->info("Devanagari:         " . $parsed->format('Y-m-d', inDevanagari: true) . " (" . $parsed->getMonthName(nepali: true) . ")");
+            $this->info('Bikram Sambat (BS): '.$parsed->toBsString().' ('.$parsed->getMonthName().')');
+            $this->info('Gregorian (AD):     '.$parsed->toAdString());
+            $this->info('Day:                '.$parsed->getDayName().' ('.$parsed->getDayName(nepali: true).')');
+            $this->info('Fiscal Year:        '.$parsed->fiscalYear().' (Q'.$parsed->fiscalQuarter().')');
+            $this->info('Devanagari:         '.$parsed->format('Y-m-d', inDevanagari: true).' ('.$parsed->getMonthName(nepali: true).')');
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
-            $this->error("Failed to convert date: " . $e->getMessage());
+            $this->error('Failed to convert date: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }
