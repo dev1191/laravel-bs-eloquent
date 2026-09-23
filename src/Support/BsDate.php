@@ -548,7 +548,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
 
             $template = (function_exists('trans') && ($t = trans("bs-eloquent::message.diff_for_humans.{$key}", [], 'np')) !== "bs-eloquent::message.diff_for_humans.{$key}")
                 ? $t
-                : ($templates[$key] ?? "{$nepaliCount} {$unit}");
+                : $templates[$key];
 
             return str_replace(':count', $nepaliCount, $template);
         }
@@ -595,7 +595,7 @@ class BsDate implements Arrayable, Jsonable, JsonSerializable, Stringable
 
         $template = (function_exists('trans') && ($t = trans("bs-eloquent::message.diff_for_humans.{$key}", [], 'en')) !== "bs-eloquent::message.diff_for_humans.{$key}")
             ? $t
-            : ($templates[$key] ?? ":count {$unit}s");
+            : $templates[$key];
 
         return str_replace(':count', (string) $count, $template);
     }

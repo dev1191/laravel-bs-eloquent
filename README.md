@@ -298,6 +298,12 @@ composer test
 
 ---
 
+## 🤝 Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on the Git workflow, branching strategy, testing requirements, and commit conventions.
+
+---
+
 ## 📄 License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

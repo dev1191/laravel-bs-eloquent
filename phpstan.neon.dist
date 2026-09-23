@@ -8,3 +8,6 @@ parameters:
         - config
         - database
     tmpDir: build/phpstan
+    ignoreErrors:
+        - '#Trait Dev1191\\BikramSambat\\Concerns\\HasBikramSambatScopes is used zero times and is not analysed\.#'
+        - '#Called ''env'' outside of the config directory#'
