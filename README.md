@@ -20,10 +20,12 @@ A modern, high-performance Laravel package for **Bikram Sambat (BS / Nepali Date
   - `whereBsFiscalYear('column', '2080/81')`
   - `whereBsQuarter('column', 2081, 1)`
 - **Built-in Nepal Fiscal Year (*Aarthik Barsha*)**: Full support for fiscal years (Shrawan 1 to Ashadh 31/32) and quarterly divisions (Q1-Q4).
-- **Fluent Date Arithmetic & Carbon Parity**: Easily manipulate dates (`addBsDays`, `subBsMonths`, `startOfBsFiscalYear`, `endOfBsMonth`) and check status (`isToday`, `isPast`, `isFuture`).
+- **Fluent Date Arithmetic & Period Boundaries**: Easily manipulate dates (`addBsDays`, `subBsMonths`, `startOfBsFiscalYear`, `endOfBsMonth`).
+- **Carbon Status Checks**: Built-in boolean state and comparison methods (`isToday()`, `isYesterday()`, `isTomorrow()`, `isPast()`, `isFuture()`, `isCurrentMonth()`, `isCurrentYear()`, `isSameMonth()`, `isSameYear()`).
 - **Relative Time Localization (`diffForHumans`)**: Natural Nepali and English relative timestamps (e.g., *“३ दिन अगाडि”*, *“२ महिना पछि”*, or *“3 days ago”*).
 - **Extended Formatting Tokens**: Full token mapping mimicking PHP's `date()` syntax (e.g. `l`, `D`, `F`, `M`, `t`, `S`, `Q`, `x`) with Devanagari numerals.
 - **Validation Rules**: Complete suite of Laravel validation rules: `bs_date`, `bs_after`, `bs_before`, `bs_fiscal_year`.
+- **Artisan CLI Conversion Tool (`php artisan bs:convert`)**: Instant terminal conversion for any BS or AD date directly from the command line, showing Gregorian equivalent, fiscal year, fiscal quarter, and Devanagari output.
 - **Pure Astronomical Formula Engine**: Zero hardcoded calendar arrays or third-party packages. Calculates dates directly from planetary motion, Lahiri Ayanamsa, and solar Sankranti ingress moments.
 - **Devanagari Numerals & Nepali Month Names**: Convert and format seamlessly in Nepali (e.g. `२०८१-०१-०१`, `बैशाख`).
 
@@ -284,6 +286,29 @@ $date->isCurrentMonth();
 $date->isCurrentYear();
 $date->isSameMonth('2081-01-30');
 $date->isSameYear('2081-08-10');
+```
+
+---
+
+### 5. Artisan CLI Conversion Command
+
+Quickly inspect and convert dates directly from the command line without opening a tinker session:
+
+```bash
+# Convert a Bikram Sambat date to Gregorian (AD) with full metadata
+php artisan bs:convert 2081-01-01
+
+# Convert a Gregorian (AD) date to Bikram Sambat
+php artisan bs:convert 2024-04-14 --from=ad
+```
+
+**Sample Output:**
+```text
+Bikram Sambat (BS): 2081-01-01 (Baisakh)
+Gregorian (AD):     2024-04-14
+Day:                Sunday (आइतबार)
+Fiscal Year:        2080/81 (Q4)
+Devanagari:         २०८१-०१-०१ (बैशाख)
 ```
 
 ---
